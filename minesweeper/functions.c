@@ -19,7 +19,7 @@ void initialize_board(cell **board, int height, int width, int num_mines)
   calculate_neighbors(board, height, width);
 }
 
-// Menempatkan tambang secara acak
+// Menempatkan ranjau secara acak
 void place_mines(cell **board, int height, int width, int num_mines)
 {
   int placed_mines = 0;
@@ -35,7 +35,7 @@ void place_mines(cell **board, int height, int width, int num_mines)
   }
 }
 
-// Menghitung jumlah tambang di sekitar setiap sel
+// Menghitung jumlah ranjau di sekitar setiap sel
 void calculate_neighbors(cell **board, int height, int width)
 {
   int directions[8][2] = {
@@ -221,10 +221,11 @@ void play_game(cell **board, int height, int width)
 
     if (command == 'o')
     {
+      int result = score(board,height,width);
       game_over = open_cell(board, height, width, x, y);
       if (game_over)
       {
-        printf("Anda terkena ranjau. Permainan Berakhir.\n");
+        printf("Anda terkena ranjau. Skor Anda = %d .Permainan Berakhir.\n",result);
       }
     }
     else if (command == 'f')
@@ -243,4 +244,17 @@ void play_game(cell **board, int height, int width)
       break;
     }
   }
+}
+
+int score(cell **board,int height, int width)
+{
+  int sum_score = 0;
+  for (int i = 0; i < height;i++){
+    for (int j = 0; j < width;j++){
+      if (board[i][j].is_open){
+      sum_score += board[i][j].neig_mines;
+      }
+    } 
+  }
+  return sum_score;
 }

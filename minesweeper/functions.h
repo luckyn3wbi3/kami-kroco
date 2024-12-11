@@ -11,5 +11,6 @@ void calculate_neighbors(cell **board, int height, int width);
 int open_cell(cell **board, int height, int width, int x, int y);
 void flag_cell(cell **board, int height, int width, int x, int y);
 void play_game(cell **board, int height, int width);
+int score(cell **board,int height, int width);
 
 #endif
