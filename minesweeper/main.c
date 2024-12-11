@@ -3,10 +3,6 @@
 #include <time.h>
 #include "functions.h"
 
-#define WIDTH 10
-#define HEIGHT 10
-#define NUM_MINES 10
-
 int main()
 {
   //Berfungsi untuk menghasilkan nilai random
