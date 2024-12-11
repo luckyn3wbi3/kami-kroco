@@ -223,10 +223,9 @@ void play_game(cell **board, int height, int width)
       printf("Koordinat salah. Coba lagi.\n");
       continue;
     }
-
+    int result = score(board,height,width);
     if (command == 'o')
     {
-      int result = score(board,height,width);
       game_over = open_cell(board, height, width, x, y);
       if (game_over)
       {
@@ -245,7 +244,7 @@ void play_game(cell **board, int height, int width)
 
     if (flags == 0)
     {
-      printf("Selamat! Kamu telah menghindari semua ranjau!\n");
+      printf("Selamat! Kamu telah menghindari semua ranjau!. Skor Anda = %d\n",result);
       break;
     }
   }
