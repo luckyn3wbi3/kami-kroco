@@ -3,7 +3,7 @@
 #include "functions.h"
 
 // Inisialisasi papan
-void initialize_board(cell board[HEIGHT][WIDTH], int height, int width, int num_mines)
+void initialize_board(cell **board, int height, int width, int num_mines)
 {
   for (int i = 0; i < height; i++)
   {
@@ -20,7 +20,7 @@ void initialize_board(cell board[HEIGHT][WIDTH], int height, int width, int num_
 }
 
 // Menempatkan tambang secara acak
-void place_mines(cell board[HEIGHT][WIDTH], int height, int width, int num_mines)
+void place_mines(cell **board, int height, int width, int num_mines)
 {
   int placed_mines = 0;
   while (placed_mines < num_mines)
@@ -36,7 +36,7 @@ void place_mines(cell board[HEIGHT][WIDTH], int height, int width, int num_mines
 }
 
 // Menghitung jumlah tambang di sekitar setiap sel
-void calculate_neighbors(cell board[HEIGHT][WIDTH], int height, int width)
+void calculate_neighbors(cell **board, int height, int width)
 {
   int directions[8][2] = {
       {-1, -1}, {-1, 0}, {-1, 1}, {0, -1}, {0, 1}, {1, -1}, {1, 0}, {1, 1}};
@@ -68,18 +68,18 @@ void calculate_neighbors(cell board[HEIGHT][WIDTH], int height, int width)
 }
 
 // Menampilkan papan
-void print_board(cell board[HEIGHT][WIDTH], int height, int width)
+void print_board(cell **board, int height, int width)
 {
   printf("   ");
   for (int i = 0; i < width; i++)
   {
-    printf(" %d  ", i);
+    printf("%d  ", i);
   }
   printf("\n");
 
   for (int i = 0; i < height; i++)
   {
-    printf("%d  ", i);
+    printf("%d ", i);
     for (int j = 0; j < width; j++)
     {
       print_cell(board[i][j]);
@@ -88,12 +88,13 @@ void print_board(cell board[HEIGHT][WIDTH], int height, int width)
   }
 }
 
-// Menampilkan setiap sel dengan emoji
+// Menampilkan setiap sel dengan simbol
 void print_cell(cell cell)
 {
   if (cell.is_flag == 1)
   {
-    printf("🚩 ");
+    // printf("🚩 ");
+    printf(" F ");
     return;
   }
 
@@ -101,49 +102,60 @@ void print_cell(cell cell)
   {
     if (cell.is_mine == 1)
     {
-      printf("💣 ");
+      // printf("💣 ");
+      printf(" 0 ");
       return;
     }
     if (cell.neig_mines == 0)
     {
-      printf("🟩 ");
+      // printf("🟩 ");
+      printf(" - ");
       return;
     }
     switch (cell.neig_mines)
     {
     case 1:
-      printf("1️⃣ ");
+      // printf("1️⃣ ");
+      printf(" 1 ");
       break;
     case 2:
-      printf("2️⃣ ");
+      // printf("2️⃣ ");
+      printf(" 2 ");
       break;
     case 3:
-      printf("3️⃣ ");
+      // printf("3️⃣ ");
+      printf(" 3 ");
       break;
     case 4:
-      printf("4️⃣ ");
+      // printf("4️⃣ ");
+      printf(" 4 ");
       break;
     case 5:
-      printf("5️⃣ ");
+      // printf("5️⃣ ");
+      printf(" 5 ");
       break;
     case 6:
-      printf("6️⃣ ");
+      // printf("6️⃣ ");
+      printf(" 6 ");
       break;
     case 7:
-      printf("7️⃣ ");
+      // printf("7️⃣ ");
+      printf(" 7 ");
       break;
     case 8:
-      printf("8️⃣ ");
+      // printf("8️⃣ ");
+      printf(" 8 ");
       break;
     }
     return;
   }
 
-  printf("⬜ ");
+  printf(" . ");
+  // printf("⬜ ");
 }
 
 // Membuka sel
-int open_cell(cell board[HEIGHT][WIDTH], int height, int width, int x, int y)
+int open_cell(cell **board, int height, int width, int x, int y)
 {
   if (board[x][y].is_open || board[x][y].is_flag)
   {
@@ -178,7 +190,7 @@ int open_cell(cell board[HEIGHT][WIDTH], int height, int width, int x, int y)
 }
 
 // Memberi tanda bendera pada sel
-void flag_cell(cell board[HEIGHT][WIDTH], int height, int width, int x, int y)
+void flag_cell(cell **board, int height, int width, int x, int y)
 {
   if (board[x][y].is_open)
   {
@@ -188,22 +200,22 @@ void flag_cell(cell board[HEIGHT][WIDTH], int height, int width, int x, int y)
 }
 
 // Fungsi utama permainan
-void play_game(cell board[HEIGHT][WIDTH], int height, int width)
+void play_game(cell **board, int height, int width)
 {
   int game_over = 0;
   int flags = NUM_MINES;
   while (!game_over)
   {
     print_board(board, height, width);
-    printf("\nFlags left: %d\n", flags);
-    printf("Enter command (o x y to open, f x y to flag): ");
+    printf("\nBendera yang tersisa: %d\n", flags);
+    printf("Masukkan perintah (<o> <x> <y> untuk membuka, <f> <x> <y> untuk bendera): ");
     char command;
     int x, y;
     scanf(" %c %d %d", &command, &x, &y);
 
     if (x < 0 || x >= height || y < 0 || y >= width)
     {
-      printf("Invalid coordinates! Try again.\n");
+      printf("Koordinat salah. Coba lagi.\n");
       continue;
     }
 
@@ -212,7 +224,7 @@ void play_game(cell board[HEIGHT][WIDTH], int height, int width)
       game_over = open_cell(board, height, width, x, y);
       if (game_over)
       {
-        printf("Game Over! You hit a mine.\n");
+        printf("Anda terkena ranjau. Permainan Berakhir.\n");
       }
     }
     else if (command == 'f')
@@ -222,12 +234,12 @@ void play_game(cell board[HEIGHT][WIDTH], int height, int width)
     }
     else
     {
-      printf("Invalid command! Try again.\n");
+      printf("Perintah tidak valid! Coba Lagi.\n");
     }
 
     if (flags == 0)
     {
-      printf("Congratulations! You've flagged all mines!\n");
+      printf("Selamat! Kamu telah menghindari semua ranjau!\n");
       break;
     }
   }
