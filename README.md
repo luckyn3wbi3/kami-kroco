@@ -36,20 +36,20 @@ Papan permainan akan ditampilkan dalam bentuk grid, di mana setiap sel akan memi
 F, untuk sel yang diberi tanda bendera.
 Angka 1-8, untuk menunjukkan jumlah tambang di sekitar sel.
 -, untuk sel kosong yang tidak mengandung tambang.
-7. Contoh Tampilan Papan
-r
+7. Contoh Tampilan Papan :
 Copy code
    0  1  2  3  4  5  6  7  8  9
-0  .  .  F  .  .  .  .  .  .  . 
-1  .  .  .  .  .  .  .  .  .  . 
+0  .  1  F  1  .  .  .  .  .  . 
+1  .  2  1  1  .  .  .  .  .  . 
 2  .  .  .  1  .  .  2  2  .  . 
-3  .  .  .  .  .  .  .  3  .  . 
-4  .  .  .  .  .  .  .  .  .  . 
-5  .  .  .  .  .  .  .  .  .  . 
-6  .  .  .  .  .  .  .  .  .  . 
+3  .  .  .  .  -  .  .  3  .  . 
+4  .  -  -  -  -  .  .  .  .  . 
+5  .  -  -  .  .  .  .  .  .  . 
+6  .  -  -  .  .  .  .  .  .  . 
 7  .  .  .  .  .  .  .  .  .  . 
 8  .  .  .  .  .  .  .  .  .  . 
 9  .  .  .  .  .  .  .  .  .  . 
+
 8. Contoh Alur Permainan
 Misalkan papan permainan berukuran 5x5 dan memiliki 3 tambang.
 Pemain memberi perintah o 1 1 untuk membuka sel di baris 1 dan kolom 1.
