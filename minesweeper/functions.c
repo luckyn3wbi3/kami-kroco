@@ -223,13 +223,15 @@ void play_game(cell **board, int height, int width)
       printf("Koordinat salah. Coba lagi.\n");
       continue;
     }
-    int result = score(board,height,width);
+    int result = score(board, height, width);
     if (command == 'o')
     {
       game_over = open_cell(board, height, width, x, y);
       if (game_over)
       {
-        printf("Anda terkena ranjau. Skor Anda = %d .Permainan Berakhir.\n",result);
+        printf("Anda terkena ranjau. Permainan Berakhir.\n");
+        generateBinary(result);
+        readFileBinary("score_minesweeper_v-1.bin");
       }
     }
     else if (command == 'f')
@@ -244,21 +246,59 @@ void play_game(cell **board, int height, int width)
 
     if (flags == 0)
     {
-      printf("Selamat! Kamu telah menghindari semua ranjau!. Skor Anda = %d\n",result);
+      printf("Selamat! Kamu telah menghindari semua ranjau!.\n");
+      generateBinary(result);
+      readFileBinary("score_minesweeper_v-1.bin");
       break;
     }
   }
 }
 
-int score(cell **board,int height, int width)
+int score(cell **board, int height, int width)
 {
   int sum_score = 0;
-  for (int i = 0; i < height;i++){
-    for (int j = 0; j < width;j++){
-      if (board[i][j].is_open){
-      sum_score += board[i][j].neig_mines;
+  for (int i = 0; i < height; i++)
+  {
+    for (int j = 0; j < width; j++)
+    {
+      if (board[i][j].is_open)
+      {
+        sum_score += board[i][j].neig_mines;
       }
-    } 
+    }
   }
   return sum_score;
 }
+
+// Sebuah Procedure yang berfungsi untuk menyimpan data dari score dan menyimpannya dalam format bin
+void generateBinary(int result)
+{
+  int versionFile = 1;
+  char filename[50];
+  sprintf(filename, "score_minesweeper_v-%d.bin", versionFile);
+  FILE *fp = fopen(filename, "wb");
+  if (fp == NULL)
+  {
+    printf("Gagal membuka file score_minesweeper_v-%d.bin");
+    return;
+  }
+  fwrite(&result, sizeof(result), 1, fp);
+  fclose(fp);
+}
+
+// Sebuah Procedure yang berfungsi untuk membaca data dari score yang disimpan dalam format bin
+void readFileBinary(char *filename)
+{
+  FILE *fp = fopen(filename, "rb");
+  if (fp == NULL)
+  {
+    printf("Gagal membuka file score_minesweeper_v-1.bin");
+    return;
+  }
+  int result = 0;
+  fread(&result, sizeof(result), 1, fp);
+  printf("Skor anda = %d",result);
+  fclose(fp);
+}
+
+

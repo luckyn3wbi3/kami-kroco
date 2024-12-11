@@ -17,5 +17,7 @@ int open_cell(cell **board, int height, int width, int x, int y);
 void flag_cell(cell **board, int height, int width, int x, int y);
 void play_game(cell **board, int height, int width);
 int score(cell **board,int height, int width);
+void generateBinary(int result);
+void readFileBinary(char *filename);
 
 #endif

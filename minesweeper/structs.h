@@ -8,7 +8,7 @@ Pembuat : Yazid Alrasyid
 
 #define WIDTH 10
 #define HEIGHT 10
-#define NUM_MINES 15 
+#define NUM_MINES 2
 
 typedef struct
 {
