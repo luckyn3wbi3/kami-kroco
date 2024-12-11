@@ -199,7 +199,8 @@ void flag_cell(cell **board, int height, int width, int x, int y)
 {
   if (board[x][y].is_open)
   {
-    return;
+    printf("Sel ini sudah dibuka, anda tidak bisa menandai ini dengan bendera\n");
+    board[x][y].is_flag = !board[x][y].is_flag;
   }
   board[x][y].is_flag = !board[x][y].is_flag;
 }
@@ -237,7 +238,7 @@ void play_game(cell **board, int height, int width)
     else if (command == 'f')
     {
       flag_cell(board, height, width, x, y);
-      flags += board[x][y].is_flag ? -1 : 1;
+      flags += board[x][y].is_flag ? -1 : board[x][y].is_open ? 0 : 1;
     }
     else
     {
