@@ -206,7 +206,7 @@ void flag_cell(cell **board, int height, int width, int x, int y)
 }
 
 // Fungsi utama permainan
-void play_game(cell **board, int height, int width)
+int play_game(cell **board, int height, int width)
 {
   int game_over = 0;
   int flags = NUM_MINES;
@@ -234,6 +234,7 @@ void play_game(cell **board, int height, int width)
         printf("Anda terkena ranjau. Permainan Berakhir.\n");
         generateBinary(result);
         readFileBinary("score_minesweeper_v-1.bin");
+        return 1;
       }
     }
     else if (command == 'f')
@@ -251,9 +252,10 @@ void play_game(cell **board, int height, int width)
       printf("Selamat! Kamu telah menghindari semua ranjau!.\n");
       generateBinary(result);
       readFileBinary("score_minesweeper_v-1.bin");
-      break;
+      return 1;
     }
   }
+  return 0;
 }
 
 int score(cell **board, int height, int width)

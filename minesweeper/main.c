@@ -37,7 +37,11 @@ int main()
       initialize_board(board, HEIGHT, WIDTH, NUM_MINES);
 
       // Mulai permainan
-      play_game(board, HEIGHT, WIDTH);
+      int game_result = play_game(board, HEIGHT, WIDTH);
+      if (game_result == 1)
+      {
+        continue;
+      }
       return 0;
     }
     else if (opsi == 2)
