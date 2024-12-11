@@ -4,6 +4,11 @@ Minesweeper adalah permainan logika di mana pemain harus membuka semua sel pada 
 
 Permainan ini menggunakan papan dengan ukuran tetap (WIDTH x HEIGHT), dan diisi dengan sejumlah tambang yang ditempatkan secara acak. Pemain dapat membuka sel atau memberi tanda bendera untuk menghindari tambang.
 
+Cara Install
+1. Pindah ke folder minesweeper dengan input "cd minesweeper" pada cmd/terminal
+2. Input "gcc *.c *.h -o runMinesweeper" pada cmd/terminal
+3. Setelahnya buka runMinesweeper.exe dengan input "./runMinesweeper.exe" pada cmd/terminal
+
 Cara Bermain
 1. **Tujuan Permainan**
 Tujuan utama adalah untuk membuka semua sel yang tidak mengandung tambang, sementara menandai sel yang dicurigai mengandung tambang dengan memberi bendera.
