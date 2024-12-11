@@ -1,3 +1,8 @@
+/*
+Nama Program : functions.h
+Tujuan : Menyimpan beberapa model yang akan digunakan oleh program lainnya/ berguna sebagai header
+Pembuat : Muhamad Syahid & Yazid Alrasyid
+*/
 #ifndef FUNCTIONS_H
 #define FUNCTIONS_H
 

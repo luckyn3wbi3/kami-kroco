@@ -1,3 +1,8 @@
+/*
+Nama Program : main.c
+Tujuan : Modul utama untuk memanggil semua modul yang telah dibuat untuk menjalankan program
+Pembuat : Muhamad Syahid & Yazid Alrasyid
+*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>

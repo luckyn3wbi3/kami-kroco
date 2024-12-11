@@ -1,3 +1,8 @@
+/*
+Nama Program : functions.c
+Tujuan : Menyimpan beberapa modul (fungsi dan prosedur) yang akan digunakan oleh main.c
+Pembuat : Muhamad Syahid & Yazid Alrasyid
+*/
 #include <stdio.h>
 #include <stdlib.h>
 #include "functions.h"

@@ -1,3 +1,8 @@
+/*
+Nama Program : structs.h
+Tujuan : Menyimpan sebuah struct kolom yang akan digunakan oleh program minesweeper
+Pembuat : Yazid Alrasyid
+*/
 #ifndef STRUCT_H
 #define STRUCT_H
 
