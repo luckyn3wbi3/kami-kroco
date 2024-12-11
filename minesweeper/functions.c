@@ -212,6 +212,7 @@ void play_game(cell **board, int height, int width)
   int flags = NUM_MINES;
   while (!game_over)
   {
+    printf("\n===============================MINESWEEPER================================\n\n");
     print_board(board, height, width);
     printf("\nBendera yang tersisa: %d\n", flags);
     printf("Masukkan perintah (<o> <x> <y> untuk membuka, <f> <x> <y> untuk bendera): ");
@@ -298,7 +299,7 @@ void readFileBinary(char *filename)
   }
   int result = 0;
   fread(&result, sizeof(result), 1, fp);
-  printf("Skor anda = %d",result);
+  printf("Skor anda = %d\n",result);
   fclose(fp);
 }
 

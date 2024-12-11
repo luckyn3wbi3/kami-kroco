@@ -10,23 +10,43 @@ Pembuat : Muhamad Syahid & Yazid Alrasyid
 
 int main()
 {
-  //Berfungsi untuk menghasilkan nilai random
-  srand(time(NULL));
+  for (;;)
+  {
+    int opsi = 0;
+    printf("========Minesweeper KamiKroco=========\n");
+    printf("              1.Main              \n");
+    printf("              2.Lihat Skor              \n");
+    printf("Opsi: ");
+    scanf("%d", &opsi);
+    if (opsi == 1)
+    {
+      // Berfungsi untuk menghasilkan nilai random
+      srand(time(NULL));
 
-  // Membuat papan permainan
-  //Berfungsi untuk alokasi memori untuk setiap barisnya
-  cell **board = (cell **)malloc(WIDTH * sizeof(cell *));
+      // Membuat papan permainan
+      // Berfungsi untuk alokasi memori untuk setiap barisnya
+      cell **board = (cell **)malloc(WIDTH * sizeof(cell *));
 
-  //Berfungsi untuk alokasi memori setiap kolom didalam setiap baris
-  for (int i = 0; i < WIDTH;i++){ 
-    board[i] = (cell *)malloc(HEIGHT * sizeof(cell));
+      // Berfungsi untuk alokasi memori setiap kolom didalam setiap baris
+      for (int i = 0; i < WIDTH; i++)
+      {
+        board[i] = (cell *)malloc(HEIGHT * sizeof(cell));
+      }
+
+      // Inisialisasi papan
+      initialize_board(board, HEIGHT, WIDTH, NUM_MINES);
+
+      // Mulai permainan
+      play_game(board, HEIGHT, WIDTH);
+      return 0;
+    }
+    else if (opsi == 2)
+    {
+      readFileBinary("score_minesweeper_v-1.bin");
+    }
+    else
+    {
+      break;
+    }
   }
-
-  // Inisialisasi papan
-  initialize_board(board, HEIGHT, WIDTH, NUM_MINES);
-
-  // Mulai permainan
-  play_game(board, HEIGHT, WIDTH);
-
-  return 0;
 }
