@@ -82,10 +82,10 @@ void print_board(cell **board, int height, int width)
 {
   clear_terminal();
   printf("\n===============================MINESWEEPER================================\n\n");
-  printf(" ");
+  printf("  ");
   for (int i = 0; i < width; i++)
   {
-    printf("%d ", i);
+    printf(" %d ", i);
   }
   printf("\n");
 
