@@ -3,19 +3,28 @@ Nama Program : structs.h
 Tujuan : Menyimpan sebuah struct kolom yang akan digunakan oleh program minesweeper
 Pembuat : Yazid Alrasyid
 */
-#ifndef STRUCT_H
-#define STRUCT_H
+#ifndef STRUCTS_H
+#define STRUCTS_H
 
+// Constants for the game
 #define WIDTH 10
 #define HEIGHT 10
 #define NUM_MINES 2
 
+// Structure to represent a cell in the Minesweeper board
 typedef struct
 {
-  int is_open;
-  int is_flag;
-  int is_mine;
-  int neig_mines;
+  int is_open;    // Indicates if the cell is opened
+  int is_flag;    // Indicates if the cell is flagged
+  int is_mine;    // Indicates if the cell contains a mine
+  int neig_mines; // Number of neighboring mines
 } cell;
 
-#endif
+// Structure to represent a leaderboard entry
+typedef struct
+{
+    char name[50]; // Player's name
+    int score;     // Player's score
+} leaderboard_entry;
+
+#endif // STRUCTS_H
