@@ -1,5 +1,5 @@
-/* Nama Program : functions.c 
-Tujuan : Menyimpan beberapa modul (fungsi dan prosedur) yang akan digunakan oleh main.c 
+/* Nama Program : functions.c
+Tujuan : Menyimpan beberapa modul (fungsi dan prosedur) yang akan digunakan oleh main.c
 Pembuat : Muhamad Syahid & Yazid Alrasyid */
 
 #include <stdio.h>
@@ -25,9 +25,9 @@ void initialize_board(cell **board, int height, int width, int num_mines)
   {
     for (int j = 0; j < width; j++)
     {
-      board[i][j].is_open = 0; // Sel belum dibuka
-      board[i][j].is_flag = 0; // Sel belum ditandai
-      board[i][j].is_mine = 0; // Sel bukan ranjau
+      board[i][j].is_open = 0;    // Sel belum dibuka
+      board[i][j].is_flag = 0;    // Sel belum ditandai
+      board[i][j].is_mine = 0;    // Sel bukan ranjau
       board[i][j].neig_mines = 0; // Jumlah ranjau di sekitar sel adalah 0
     }
   }
@@ -49,7 +49,7 @@ void place_mines(cell **board, int height, int width, int num_mines)
     if (board[x][y].is_mine == 0)
     {
       board[x][y].is_mine = 1; // Tandai sel sebagai ranjau
-      placed_mines++; // Tambah jumlah ranjau yang telah ditempatkan
+      placed_mines++;          // Tambah jumlah ranjau yang telah ditempatkan
     }
   }
 }
@@ -199,7 +199,7 @@ int open_cell(cell **board, int height, int width, int x, int y)
   if (board[x][y].is_mine)
   {
     reveal_mines(board, height, width); // Mengungkap semua ranjau
-    return 1; // Permainan berakhir
+    return 1;                           // Permainan berakhir
   }
 
   if (board[x][y].neig_mines == 0)
@@ -247,23 +247,23 @@ int flag_cell(cell **board, int height, int width, int x, int y, int *is_correct
 // Memvalidasi jumlah bendera yang benar
 int valid_flags(int *correct)
 {
-    return (*correct)++; // Menambah jumlah bendera yang benar
+  return (*correct)++; // Menambah jumlah bendera yang benar
 }
 
 // Fungsi utama permainan
 int play_game(cell **board, int height, int width, int num_mines, int *result)
 {
-  clear_terminal(); // Bersihkan terminal sebelum memulai permainan
-  int game_over = 0; // Status permainan
+  clear_terminal();      // Bersihkan terminal sebelum memulai permainan
+  int game_over = 0;     // Status permainan
   int flags = num_mines; // Jumlah bendera yang tersedia
-  int is_correct = 0; // Jumlah bendera yang benar
+  int is_correct = 0;    // Jumlah bendera yang benar
   while (!game_over)
   {
-    print_board(board, height, width); // Tampilkan papan permainan
+    print_board(board, height, width);             // Tampilkan papan permainan
     printf("\nBendera yang tersisa: %d\n", flags); // Tampilkan jumlah bendera yang tersisa
     printf("Masukkan perintah (<o> <baris> <kolom> untuk membuka, <f> <baris> <kolom> untuk bendera): ");
-    char command; // Perintah dari pengguna
-    int x, y; // Koordinat sel
+    char command;                         // Perintah dari pengguna
+    int x, y;                             // Koordinat sel
     scanf(" %c %d %d", &command, &x, &y); // Ambil input dari pengguna
     if (x < 0 || x >= height || y < 0 || y >= width)
     {
@@ -271,20 +271,21 @@ int play_game(cell **board, int height, int width, int num_mines, int *result)
       continue;
     }
     *result = score(board, height, width); // Hitung skor saat ini
-    if (command == 'o') // Jika perintah adalah membuka sel
+    if (command == 'o')                    // Jika perintah adalah membuka sel
     {
       game_over = open_cell(board, height, width, x, y); // Buka sel
       if (game_over)
       {
-        print_board(board, height, width); // Tampilkan papan dengan ranjau
+        print_board(board, height, width);                    // Tampilkan papan dengan ranjau
         printf("Anda terkena ranjau. Permainan Berakhir.\n"); // Pesan game over
-        return 1; // Kembali dengan status game over
+        return 1;                                             // Kembali dengan status game over
       }
     }
     else if (command == 'f') // Jika perintah adalah memberi tanda
     {
       flag_cell(board, height, width, x, y, &is_correct); // Beri tanda pada sel
-      flags += board[x][y].is_flag ? -1 : board[x][y].is_open ? 0 : 1; // Update jumlah bendera
+      flags += board[x][y].is_flag ? -1 : board[x][y].is_open ? 0
+                                                              : 1; // Update jumlah bendera
     }
     else
     {
@@ -292,9 +293,9 @@ int play_game(cell **board, int height, int width, int num_mines, int *result)
     }
     if (is_correct == num_mines) // Jika semua ranjau ditandai dengan benar
     {
-      print_board(board, height, width); // Tampilkan papan dengan ranjau
+      print_board(board, height, width);                          // Tampilkan papan dengan ranjau
       printf("Selamat! Kamu telah menghindari semua ranjau!.\n"); // Pesan kemenangan
-      return 1; // Kembali dengan status menang
+      return 1;                                                   // Kembali dengan status menang
     }
   }
   return 0; // Kembali dengan status permainan berlanjut
@@ -320,91 +321,95 @@ int score(cell **board, int height, int width)
 // Sebuah Procedure yang berfungsi untuk menyimpan data dari score dan menyimpannya dalam format bin
 void saveScore(char player_name[50], int score)
 {
-  int versionFile = 1; // Versi file leaderboard
-  char filename[50]; // Nama file
+  int versionFile = 1;                                                // Versi file leaderboard
+  char filename[50];                                                  // Nama file
   sprintf(filename, "leaderboard_minesweeper_v-%d.bin", versionFile); // Format nama file
-  FILE *fp = fopen(filename, "ab"); // Buka file dalam mode append
+  FILE *fp = fopen(filename, "ab");                                   // Buka file dalam mode append
   if (fp == NULL)
   {
     printf("Gagal membuka file leaderboard_minesweeper_v-%d.bin\n", versionFile); // Pesan gagal membuka file
     return;
   }
 
-  leaderboard_entry entry; // Struktur untuk menyimpan entri leaderboard
+  leaderboard_entry entry;         // Struktur untuk menyimpan entri leaderboard
   strcpy(entry.name, player_name); // Salin nama pemain
-  entry.score = score; // Simpan skor
+  entry.score = score;             // Simpan skor
 
   fwrite(&entry, sizeof(leaderboard_entry), 1, fp); // Tulis entri ke file
-  fclose(fp); // Tutup file
+  fclose(fp);                                       // Tutup file
 }
 
 // Menampilkan leaderboard dari file
-void display_leaderboard(char *filename) {
-    clear_terminal(); // Bersihkan terminal sebelum menampilkan leaderboard
-    FILE *fp = fopen(filename, "rb"); // Buka file dalam mode baca biner
-    if (fp == NULL) {
-        printf("Gagal membuka file %s\n", filename); // Pesan gagal membuka file
-        return;
-    }
+void display_leaderboard(char *filename)
+{
+  clear_terminal();                 // Bersihkan terminal sebelum menampilkan leaderboard
+  FILE *fp = fopen(filename, "rb"); // Buka file dalam mode baca biner
+  if (fp == NULL)
+  {
+    printf("Gagal membuka file %s\n", filename); // Pesan gagal membuka file
+    return;
+  }
 
-    // Menghitung berapa banyak data yang ada didalam file
-    fseek(fp, 0, SEEK_END); // Pindah ke akhir file
-    long fileSize = ftell(fp); // Dapatkan ukuran file
-    int count = fileSize / sizeof(leaderboard_entry); // Hitung jumlah entri
-    rewind(fp); // Kembali ke awal file
+  // Menghitung berapa banyak data yang ada didalam file
+  fseek(fp, 0, SEEK_END);                           // Pindah ke akhir file
+  long fileSize = ftell(fp);                        // Dapatkan ukuran file
+  int count = fileSize / sizeof(leaderboard_entry); // Hitung jumlah entri
+  rewind(fp);                                       // Kembali ke awal file
 
-    // Alokasi memori untuk setiap data array
-    leaderboard_entry *entries = (leaderboard_entry *)malloc(count * sizeof(leaderboard_entry));
-    if (entries == NULL) {
-        printf("Alokasi Memori Gagal\n"); // Pesan gagal alokasi memori
-        fclose(fp); // Tutup file
-        return;
-    }
+  // Alokasi memori untuk setiap data array
+  leaderboard_entry *entries = (leaderboard_entry *)malloc(count * sizeof(leaderboard_entry));
+  if (entries == NULL)
+  {
+    printf("Alokasi Memori Gagal\n"); // Pesan gagal alokasi memori
+    fclose(fp);                       // Tutup file
+    return;
+  }
 
-    // Membaca semua data didalam file
-    fread(entries, sizeof(leaderboard_entry), count, fp); // Baca entri dari file
-    fclose(fp); // Tutup file
+  // Membaca semua data didalam file
+  fread(entries, sizeof(leaderboard_entry), count, fp); // Baca entri dari file
+  fclose(fp);                                           // Tutup file
 
-    // Sortir data berdasarkan score dengan metode qsort
-    qsort(entries, count, sizeof(leaderboard_entry), sort_score); // Urutkan entri berdasarkan skor
+  // Sortir data berdasarkan score dengan metode qsort
+  qsort(entries, count, sizeof(leaderboard_entry), sort_score); // Urutkan entri berdasarkan skor
 
-    // Menampilkan 10 besar
-    printf("======== Top 10 Leaderboard ========\n");
-    for (int i = 0; i < count && i < 10; i++) {
-        printf("Nama: %s, Skor: %d\n", entries[i].name, entries[i].score); // Tampilkan nama dan skor
-    }
+  // Menampilkan 10 besar
+  printf("======== Top 10 Leaderboard ========\n");
+  for (int i = 0; i < count && i < 10; i++)
+  {
+    printf("Nama: %s, Skor: %d\n", entries[i].name, entries[i].score); // Tampilkan nama dan skor
+  }
 
-    // Membersihkan alokasi memory
-    free(entries); // Bebaskan memori yang dialokasikan
+  // Membersihkan alokasi memory
+  free(entries); // Bebaskan memori yang dialokasikan
 }
 
 // Menampilkan panduan permainan dari file
 void guides(char *filename)
 {
-    clear_terminal(); // Bersihkan terminal sebelum menampilkan panduan
-    FILE *fp = fopen(filename, "r"); // Buka file dalam mode baca
-    if (fp == NULL)
-    {
-        printf("Gagal membuka file aturan-main.txt"); // Pesan gagal membuka file
-        return;
-    }
+  clear_terminal();                // Bersihkan terminal sebelum menampilkan panduan
+  FILE *fp = fopen(filename, "r"); // Buka file dalam mode baca
+  if (fp == NULL)
+  {
+    printf("Gagal membuka file aturan-main.txt"); // Pesan gagal membuka file
+    return;
+  }
 
-    char buffer[4096]; // Buffer untuk menyimpan baris
-    int line = 1; // Inisialisasi nomor baris
+  char buffer[4096]; // Buffer untuk menyimpan baris
+  int line = 1;      // Inisialisasi nomor baris
 
-    while (fgets(buffer, sizeof(buffer), fp) != NULL) // Baca setiap baris
-    {
-        printf("%s", buffer); // Tampilkan baris
-        line++; // Tambah nomor baris
-    }
+  while (fgets(buffer, sizeof(buffer), fp) != NULL) // Baca setiap baris
+  {
+    printf("%s", buffer); // Tampilkan baris
+    line++;               // Tambah nomor baris
+  }
 
-    fclose(fp); // Tutup file
+  fclose(fp); // Tutup file
 }
 
 // Fungsi untuk mengurutkan skor
 int sort_score(const void *a, const void *b)
 {
-    leaderboard_entry *entryA = (leaderboard_entry *)a; // Cast ke tipe leaderboard_entry
-    leaderboard_entry *entryB = (leaderboard_entry *)b; // Cast ke tipe leaderboard_entry
-    return entryB->score - entryA->score; // Urutkan berdasarkan skor secara menurun
+  leaderboard_entry *entryA = (leaderboard_entry *)a; // Cast ke tipe leaderboard_entry
+  leaderboard_entry *entryB = (leaderboard_entry *)b; // Cast ke tipe leaderboard_entry
+  return entryB->score - entryA->score;               // Urutkan berdasarkan skor secara menurun
 }

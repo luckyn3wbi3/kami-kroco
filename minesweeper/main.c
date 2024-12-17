@@ -19,7 +19,7 @@ int main()
         printf("Opsi: ");
         scanf("%d", &opsi);
         if (opsi == 1)
-        { 
+        {
             clear_terminal();
             int opsi_diff = 0;
             printf("========Pilih Kesulitan=========\n");
@@ -48,11 +48,11 @@ int main()
                 break;
             case 4:
                 printf("Baris? ");
-                scanf("%d",&height);
+                scanf("%d", &height);
                 printf("Kolom? ");
-                scanf("%d",&width);
+                scanf("%d", &width);
                 printf("Jumlah Ranjau? ");
-                scanf("%d",&num_mines);
+                scanf("%d", &num_mines);
                 break;
             default:
                 break;
