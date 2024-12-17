@@ -206,7 +206,7 @@ int open_cell(cell **board, int height, int width, int x, int y)
 }
 
 // Memberi tanda bendera pada sel
-int flag_cell(cell **board, int height, int width, int x, int y)
+int flag_cell(cell **board, int height, int width, int x, int y, int *is_correct)
 {
   clear_terminal();
   if (board[x][y].is_open)
@@ -221,10 +221,15 @@ int flag_cell(cell **board, int height, int width, int x, int y)
   // If the cell is a mine and is flagged, we can change its state
   if (board[x][y].is_flag && board[x][y].is_mine)
   {
-    // Optionally, you can print a message here if you want
+    valid_flags(is_correct);
   }
 
   return 1; // Successfully flagged
+}
+
+int valid_flags(int *correct)
+{
+    return (*correct)++;
 }
 
 // Fungsi utama permainan
@@ -233,11 +238,12 @@ int play_game(cell **board, int height, int width,int num_mines, int *result)
   clear_terminal();
   int game_over = 0;
   int flags = num_mines;
+  int is_correct = 0;
   while (!game_over)
   {
     print_board(board, height, width);
     printf("\nBendera yang tersisa: %d\n", flags);
-    printf("Masukkan perintah (<o> <x> <y> untuk membuka, <f> <x> <y> untuk bendera): ");
+    printf("Masukkan perintah (<o> <baris> <kolom> untuk membuka, <f> <baris> <kolom> untuk bendera): ");
     char command;
     int x, y;
     scanf(" %c %d %d", &command, &x, &y);
@@ -259,16 +265,14 @@ int play_game(cell **board, int height, int width,int num_mines, int *result)
     }
     else if (command == 'f')
     {
-      flag_cell(board, height, width, x, y);
-      flags += board[x][y].is_flag ? -1 : board[x][y].is_open ? 0
-                                                              : 1;
+      flag_cell(board, height, width, x, y, &is_correct);
+      flags += board[x][y].is_flag ? -1 : board[x][y].is_open ? 0 : 1;
     }
     else
     {
       printf("Perintah tidak valid! Coba Lagi.\n");
     }
-
-    if (flags == 0)
+    if (is_correct == num_mines)
     {
       print_board(board, height, width); // Show the board with bombs
       printf("Selamat! Kamu telah menghindari semua ranjau!.\n");
@@ -338,13 +342,13 @@ void display_leaderboard(char *filename) {
         return;
     }
 
-    // Count the number of entries in the file
+    //Menghitung berapa banyak data yang ada didalam file
     fseek(fp, 0, SEEK_END);
     long fileSize = ftell(fp);
     int count = fileSize / sizeof(leaderboard_entry);
     rewind(fp);
 
-    // Allocate memory for the entries array
+    // Alokasi memori terhadap setiap data array
     leaderboard_entry *entries = (leaderboard_entry *)malloc(count * sizeof(leaderboard_entry));
     if (entries == NULL) {
         printf("Alokasi Memori Gagal\n");
@@ -352,20 +356,20 @@ void display_leaderboard(char *filename) {
         return;
     }
 
-    // Read all entries from the file
+    // Membaca semua data didalam file
     fread(entries, sizeof(leaderboard_entry), count, fp);
     fclose(fp);
 
-    // Sort the entries based on score
+    // Sortir data berdasarkan score dengan metode qsort
     qsort(entries, count, sizeof(leaderboard_entry), sort_score);
 
-    // Display the top 10 entries
+    // Menampilkan 10 besar
     printf("======== Top 10 Leaderboard ========\n");
     for (int i = 0; i < count && i < 10; i++) {
         printf("Nama: %s, Skor: %d\n", entries[i].name, entries[i].score);
     }
 
-    // Free the allocated memory
+    // Membersihkan alokasi memory
     free(entries);
 }
 
