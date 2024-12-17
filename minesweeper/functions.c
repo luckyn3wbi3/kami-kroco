@@ -277,7 +277,7 @@ int play_game(cell **board, int height, int width, int num_mines, int *result)
       if (game_over)
       {
         print_board(board, height, width);                    // Tampilkan papan dengan ranjau
-        printf("Anda terkena ranjau. Permainan Berakhir.\n"); // Pesan game over
+        printf("Anda terkena ranjau. Skor anda = %d .Permainan Berakhir.\n",*result); // Pesan game over
         return 1;                                             // Kembali dengan status game over
       }
     }
@@ -294,7 +294,7 @@ int play_game(cell **board, int height, int width, int num_mines, int *result)
     if (is_correct == num_mines) // Jika semua ranjau ditandai dengan benar
     {
       print_board(board, height, width);                          // Tampilkan papan dengan ranjau
-      printf("Selamat! Kamu telah menghindari semua ranjau!.\n"); // Pesan kemenangan
+      printf("Selamat! Kamu telah menghindari semua ranjau!. Skor anda = %d \n",*result); // Pesan kemenangan
       return 1;                                                   // Kembali dengan status menang
     }
   }
