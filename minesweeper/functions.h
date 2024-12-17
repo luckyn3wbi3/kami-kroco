@@ -23,7 +23,6 @@ int play_game(cell **board, int height, int width, int num_mines, int *result);
 int flag_cell(cell **board, int height, int width, int x, int y, int *is_correct);
 int score(cell **board, int height, int width);
 void saveScore(char player_name[50], int score);
-void readFileBinary(char *filename);
 void display_leaderboard(char *filename);
 void guides(char *filename);
 int sort_score(const void *a, const void *b);
