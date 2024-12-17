@@ -1,0 +1,70 @@
+# PANDUAN PERMAINAN MINESWEEPER
+
+## Konsep Dasar Permainan
+Minesweeper adalah permainan teka-teki strategi yang menantang pemain untuk mengungkap sel-sel di papan permainan tanpa membuka sel yang berisi ranjau (bom).
+Tujuan utama permainan adalah mengungkap semua sel aman dan menandai lokasi semua ranjau.
+
+## Persiapan Papan Permainan
+- Papan permainan berukuran 10x10
+- Sel-sel ditandai dengan simbol `.` untuk menunjukkan sel yang belum dibuka
+- Baris dinomori dari 0-9 (dari atas ke bawah)
+- Kolom dinomori dari 0-9 (dari kiri ke kanan)
+
+## Aturan Dasar
+1. **Cara Menang**: 
+   - Berhasil menandai semua ranjau dengan bendera
+   - Membuka semua sel yang tidak berisi ranjau
+
+2. **Cara Kalah**:
+   - Membuka sel yang berisi bom
+
+## Format Perintah
+Setiap perintah terdiri dari tiga komponen:
+`<command> <baris> <kolom>`
+
+### Jenis Command:
+- `o`: Open (membuka sel)
+- `f`: Flag (menandai sel dengan bendera)
+
+### Contoh Perintah:
+- `o 0 9`: Membuka sel di baris 0, kolom 9
+- `f 5 3`: Memasang bendera di baris 5, kolom 3
+
+## Contoh Papan Permainan
+```
+   0 1 2 3 4 5 6 7 8 9
+0  . . . . . . . . . .
+1  . . . . . . . . . .
+2  . . . . . . . . . .
+3  . . . . . . . . . .
+4  . . . . . . . . . .
+5  . . . . . . . . . .
+6  . . . . . . . . . .
+7  . . . . . . . . . .
+8  . . . . . . . . . .
+9  . . . . . . . . . .
+
+Papan Setelah Beberapa Perintah:
+   0 1 2 3 4 5 6 7 8 9
+0  . . . . . . . . . .
+1  . . . . . . . . . .
+2  . . . . . . . . . .
+3  . 2 1 . . . . . . .
+4  . 1 * . . . . . . .
+5  . 1 1 . . . . . . .
+6  . . . . . . . . . .
+7  . . . . . . . . . .
+8  . . . . . . . . . .
+9  . . . . . . . . . .
+```
+
+## Strategi Bermain
+1. Mulai dari sudut atau tepi papan untuk meminimalisir risiko
+2. Perhatikan angka yang muncul setelah membuka sel, angka ini menunjukkan jumlah bom di sekitar sel tersebut
+3. Gunakan logika dan perhitungan untuk menentukan lokasi bom
+
+## Catatan Penting
+- Berhati-hatilah saat membuka sel
+- Gunakan bendera untuk menandai sel yang dicurigai berisi bom
+- Setiap kesalahan dalam membuka sel bom akan langsung mengakhiri permainan
+

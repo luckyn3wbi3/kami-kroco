@@ -6,11 +6,6 @@ Pembuat : Yazid Alrasyid
 #ifndef STRUCTS_H
 #define STRUCTS_H
 
-// Constants for the game
-#define WIDTH 10
-#define HEIGHT 10
-#define NUM_MINES 2
-
 // Structure to represent a cell in the Minesweeper board
 typedef struct
 {

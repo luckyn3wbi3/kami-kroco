@@ -6,11 +6,11 @@
 
 void clear_terminal()
 {
-    #ifdef _WIN32
-        system("cls"); // For Windows
-    #else
-        system("clear"); // For Linux and macOS
-    #endif
+#ifdef _WIN32
+  system("cls"); // For Windows
+#else
+  system("clear"); // For Linux and macOS
+#endif
 }
 
 // Inisialisasi papan
@@ -103,120 +103,136 @@ void print_board(cell **board, int height, int width)
 // Menampilkan setiap sel dengan simbol
 void print_cell(cell cell)
 {
-    if (cell.is_flag == 1)
-    {
-        printf(" F "); // Display flag for non-mine
-        return;
-    }
+  if (cell.is_flag == 1)
+  {
+    printf(" F "); // Display flag for non-mine
+    return;
+  }
 
-    if (cell.is_open == 1)
+  if (cell.is_open == 1)
+  {
+    if (cell.is_mine == 1)
     {
-        if (cell.is_mine == 1)
-        {
-            printf(" X "); // Display X for opened mine
-            return;
-        }
-        if (cell.neig_mines == 0)
-        {
-            printf(" - "); // Display empty cell
-            return;
-        }
-        switch (cell.neig_mines)
-        {
-            case 1: printf(" 1 "); break;
-            case 2: printf(" 2 "); break;
-            case 3: printf(" 3 "); break;
-            case 4: printf(" 4 "); break;
-            case 5: printf(" 5 "); break;
-            case 6: printf(" 6 "); break;
-            case 7: printf(" 7 "); break;
-            case 8: printf(" 8 "); break;
-        }
-        return;
+      printf(" X "); // Display X for opened mine
+      return;
     }
+    if (cell.neig_mines == 0)
+    {
+      printf(" - "); // Display empty cell
+      return;
+    }
+    switch (cell.neig_mines)
+    {
+    case 1:
+      printf(" 1 ");
+      break;
+    case 2:
+      printf(" 2 ");
+      break;
+    case 3:
+      printf(" 3 ");
+      break;
+    case 4:
+      printf(" 4 ");
+      break;
+    case 5:
+      printf(" 5 ");
+      break;
+    case 6:
+      printf(" 6 ");
+      break;
+    case 7:
+      printf(" 7 ");
+      break;
+    case 8:
+      printf(" 8 ");
+      break;
+    }
+    return;
+  }
 
-    printf(" . "); // Display unopened cell
+  printf(" . "); // Display unopened cell
 }
 
 // Menampilkan semua ranjau di papan
 void reveal_mines(cell **board, int height, int width)
 {
-    for (int i = 0; i < height; i++)
+  for (int i = 0; i < height; i++)
+  {
+    for (int j = 0; j < width; j++)
     {
-        for (int j = 0; j < width; j++)
-        {
-            if (board[i][j].is_mine)
-            {
-                board[i][j].is_open = 1; // Open the mine cell
-            }
-        }
+      if (board[i][j].is_mine)
+      {
+        board[i][j].is_open = 1; // Open the mine cell
+      }
     }
+  }
 }
 
 // Membuka sel
 int open_cell(cell **board, int height, int width, int x, int y)
 {
-    clear_terminal();
-    if (board[x][y].is_open || board[x][y].is_flag)
-    {
-        return 0;
-    }
-
-    board[x][y].is_open = 1;
-
-    if (board[x][y].is_mine)
-    {
-        reveal_mines(board, height, width); // Reveal all mines
-        return 1; // Game over
-    }
-
-    if (board[x][y].neig_mines == 0)
-    {
-        int directions[8][2] = {{-1, -1}, {-1, 0}, {-1, 1}, {0, -1}, {0, 1}, {1, -1}, {1, 0}, {1, 1}};
-        for (int i = 0; i < 8; i++)
-        {
-            int nx = x + directions[i][0];
-            int ny = y + directions[i][1];
-            if (nx >= 0 && ny >= 0 && nx < height && ny < width)
-            {
-                if (!board[nx][ny].is_open)
-                {
-                    open_cell(board, height, width, nx, ny);
-                }
-            }
-        }
-    }
+  clear_terminal();
+  if (board[x][y].is_open || board[x][y].is_flag)
+  {
     return 0;
+  }
+
+  board[x][y].is_open = 1;
+
+  if (board[x][y].is_mine)
+  {
+    reveal_mines(board, height, width); // Reveal all mines
+    return 1;                           // Game over
+  }
+
+  if (board[x][y].neig_mines == 0)
+  {
+    int directions[8][2] = {{-1, -1}, {-1, 0}, {-1, 1}, {0, -1}, {0, 1}, {1, -1}, {1, 0}, {1, 1}};
+    for (int i = 0; i < 8; i++)
+    {
+      int nx = x + directions[i][0];
+      int ny = y + directions[i][1];
+      if (nx >= 0 && ny >= 0 && nx < height && ny < width)
+      {
+        if (!board[nx][ny].is_open)
+        {
+          open_cell(board, height, width, nx, ny);
+        }
+      }
+    }
+  }
+  return 0;
 }
 
 // Memberi tanda bendera pada sel
 int flag_cell(cell **board, int height, int width, int x, int y)
 {
-    clear_terminal();
-    if (board[x][y].is_open)
-    {
-        printf("Sel ini sudah dibuka, anda tidak bisa menandai ini dengan bendera\n");
-        return 0; // Cannot flag an opened cell
-    }
+  clear_terminal();
+  if (board[x][y].is_open)
+  {
+    printf("Sel ini sudah dibuka, anda tidak bisa menandai ini dengan bendera\n");
+    return 0; // Cannot flag an opened cell
+  }
 
-    // Toggle the flag
-    board[x][y].is_flag = !board[x][y].is_flag;
+  // Toggle the flag
+  board[x][y].is_flag = !board[x][y].is_flag;
 
-    // If the cell is a mine and is flagged, we can change its state
-    if (board[x][y].is_flag && board[x][y].is_mine)
-    {
-        // Optionally, you can print a message here if you want
-    }
+  // If the cell is a mine and is flagged, we can change its state
+  if (board[x][y].is_flag && board[x][y].is_mine)
+  {
+    // Optionally, you can print a message here if you want
+  }
 
-    return 1; // Successfully flagged
+  return 1; // Successfully flagged
 }
 
 // Fungsi utama permainan
-int play_game(cell **board, int height, int width,int *result)
+int play_game(cell **board, int height, int width,int num_mines, int *result)
 {
   clear_terminal();
   int game_over = 0;
-  int flags = NUM_MINES;
+  int flags = num_mines;
   while (!game_over)
   {
     print_board(board, height, width);
@@ -236,9 +252,9 @@ int play_game(cell **board, int height, int width,int *result)
       game_over = open_cell(board, height, width, x, y);
       if (game_over)
       {
-          print_board(board, height, width); // Show the board with bombs
-          printf("Anda terkena ranjau. Permainan Berakhir.\n");
-          return 1;
+        print_board(board, height, width); // Show the board with bombs
+        printf("Anda terkena ranjau. Permainan Berakhir.\n");
+        return 1;
       }
     }
     else if (command == 'f')
@@ -279,24 +295,24 @@ int score(cell **board, int height, int width)
 }
 
 // Sebuah Procedure yang berfungsi untuk menyimpan data dari score dan menyimpannya dalam format bin
-void generateBinary(char player_name[50], int score)
+void saveScore(char player_name[50], int score)
 {
-    int versionFile = 1;
-    char filename[50];
-    sprintf(filename, "leaderboard_minesweeper_v-%d.bin", versionFile);
-    FILE *fp = fopen(filename, "ab"); // Open in append mode
-    if (fp == NULL)
-    {
-        printf("Gagal membuka file leaderboard_minesweeper_v-%d.bin\n", versionFile);
-        return;
-    }
+  int versionFile = 1;
+  char filename[50];
+  sprintf(filename, "leaderboard_minesweeper_v-%d.bin", versionFile);
+  FILE *fp = fopen(filename, "ab"); // Open in append mode
+  if (fp == NULL)
+  {
+    printf("Gagal membuka file leaderboard_minesweeper_v-%d.bin\n", versionFile);
+    return;
+  }
 
-    leaderboard_entry entry;
-    strcpy(entry.name, player_name);
-    entry.score = score;
+  leaderboard_entry entry;
+  strcpy(entry.name, player_name);
+  entry.score = score;
 
-    fwrite(&entry, sizeof(leaderboard_entry), 1, fp);
-    fclose(fp);
+  fwrite(&entry, sizeof(leaderboard_entry), 1, fp);
+  fclose(fp);
 }
 
 // Sebuah Procedure yang berfungsi untuk membaca data dari score yang disimpan dalam format bin
@@ -314,20 +330,70 @@ void readFileBinary(char *filename)
   fclose(fp);
 }
 
-void display_leaderboard(char *filename)
-{
+void display_leaderboard(char *filename) {
+    clear_terminal();
     FILE *fp = fopen(filename, "rb");
-    if (fp == NULL)
-    {
+    if (fp == NULL) {
         printf("Gagal membuka file %s\n", filename);
         return;
     }
 
-    leaderboard_entry entry;
-    printf("======== Leaderboard ========\n");
-    while (fread(&entry, sizeof(entry), 1, fp))
-    {
-        printf("Nama: %s, Skor: %d\n", entry.name, entry.score);
+    // Count the number of entries in the file
+    fseek(fp, 0, SEEK_END);
+    long fileSize = ftell(fp);
+    int count = fileSize / sizeof(leaderboard_entry);
+    rewind(fp);
+
+    // Allocate memory for the entries array
+    leaderboard_entry *entries = (leaderboard_entry *)malloc(count * sizeof(leaderboard_entry));
+    if (entries == NULL) {
+        printf("Alokasi Memori Gagal\n");
+        fclose(fp);
+        return;
     }
+
+    // Read all entries from the file
+    fread(entries, sizeof(leaderboard_entry), count, fp);
     fclose(fp);
+
+    // Sort the entries based on score
+    qsort(entries, count, sizeof(leaderboard_entry), sort_score);
+
+    // Display the top 10 entries
+    printf("======== Top 10 Leaderboard ========\n");
+    for (int i = 0; i < count && i < 10; i++) {
+        printf("Nama: %s, Skor: %d\n", entries[i].name, entries[i].score);
+    }
+
+    // Free the allocated memory
+    free(entries);
+}
+
+void guides(char *filename)
+{
+    clear_terminal();
+    FILE *fp = fopen(filename, "r");
+    if (fp == NULL)
+    {
+        printf("Gagal membuka file aturan-main.txt");
+        return;
+    }
+
+    char buffer[4096];
+    int line = 1;
+
+    while (fgets(buffer, sizeof(buffer), fp) != NULL)
+    {
+        printf("%s", buffer);
+        line++;
+    }
+
+    fclose(fp);
+}
+
+int sort_score(const void *a, const void *b)
+{
+    leaderboard_entry *entryA = (leaderboard_entry *)a;
+    leaderboard_entry *entryB = (leaderboard_entry *)b;
+    return entryB->score - entryA->score;
 }
